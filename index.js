@@ -80,4 +80,4 @@ app.post('/api/order_complete', async function handleRequest(req, res) {
 })
 
 // web server
-app.listen(port, () => console.log('Server listening is on'))
+app.listen('8080', () => console.log('Server listening is on'))
