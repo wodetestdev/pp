@@ -3,7 +3,6 @@ const path = require('path')
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = 3000;
 
 const add1 = '5 Temasek Boulevard';
 const add2 = '#09-01 Suntec Tower Five';
@@ -81,4 +80,4 @@ app.post('/api/order_complete', async function handleRequest(req, res) {
 })
 
 // web server
-app.listen(port, () => console.log(`Server listening on port ${port}!`))
+app.listen(port, () => console.log('Server listening is on'))
