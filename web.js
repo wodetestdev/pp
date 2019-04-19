@@ -73,9 +73,6 @@ app.post('/api/order_complete', async function handleRequest(req, res) {
     // await database.saveTransaction(orderID);
 
     // 6. Return a successful response to the client
-    // Show a success message to your buyer
-    res.redirect('/complete');
-    alert('Transaction completed by ' + request.payer.name.given_name);
     return res.sendStatus(200);
 })
 

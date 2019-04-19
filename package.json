@@ -2,9 +2,9 @@
   "name": "paypal-app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "web.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node web.js"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +13,8 @@
     "@paypal/checkout-server-sdk": "^1.0.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
