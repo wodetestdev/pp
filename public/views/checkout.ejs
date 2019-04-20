@@ -40,24 +40,24 @@
                     },
 
                     onApprove: function(data, actions) {
-
                         // Capture the funds from the transaction
-                        return actions.order.capture().then(function(details) {
-
+                        actions.order.capture().then(function(details) {
+                            console.log(details);
                             // Call your server to save the transaction
-                            return fetch('/api/order_complete', {
+                            fetch('/api/order_complete', {
                                 method: 'post',
                                 headers: {
                                     'content-type' : 'application/json'
                                 },
                                 body: JSON.stringify({
                                     orderID: data.orderID,
-                                    details: details
+                                    transactionID: details.purchase_units[0].payments.captures[0].id,
+                                    transactionTime: details.create_time
                                 })
 
                             });
                             alert('Transaction completed by ' + request.payer.name.given_name);
-
+                            actions.redirect('/complete');
                         });
                     }
                 }).render('#paypal-button-container');

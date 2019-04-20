@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const port = process.env.PORT || 5000;
+// call the database connectivity function
 
 const add1 = '5 Temasek Boulevard';
 const add2 = '#09-01 Suntec Tower Five';
@@ -11,6 +12,8 @@ const pcode = '038985';
 const cty = 'Singapore';
 const curr = 'USD';
 const price = '0.01';
+var orderID;
+var txnID;
 
 //configure bodyparser
 const bodyParserJSON = bodyParser.json();
@@ -33,12 +36,13 @@ app.get('/', function(req, res) {
 });
 
 app.get('/complete', function(req, res) {
-    res.render('complete', {price:price});
+    res.render('complete', {price:price, txnID:txnID});
 });
 
 app.get('*', function(req, res) {
     res.render('error');
 });
+
 
 ///// Paypal Routes /////
 // 1. Set up your server to make calls to PayPal
@@ -51,31 +55,21 @@ const payPalClient = require('./Common/payPalClient');
 // 2. Set up your server to receive a call from the client
 app.post('/api/order_complete', async function handleRequest(req, res) {
 
-    // 2a. Get the order ID from the request body
-    const orderID = req.body.orderID;
+    // 2a. Get details from the request body
+    orderID = req.body.orderID;
+    txnID = req.body.transactionID;
+    const createTime = req.body.transactionTime;
 
-    // 3. Call PayPal to get the transaction details
-    const request = new checkoutNodeJssdk.orders.OrdersGetRequest(orderID);
-    request.headers["prefer"] = "return=representation";
+    console.log(orderID + '/' + txnID + '/' +createTime);
 
-    //let order;
-    try {
-        const capture = await payPalClient.client().execute(request);
-        const captureID = capture.result.purchase_units[0]
-        .payments.captures[0].id;
-        console.log('oid = ' + orderID + ', ' + 'tid = ' + captureID);
-    } catch (err) {
-        // 4. Handle any errors from the call
-        console.error(err);
-        return res.sendStatus(500);
-    }
-
-    // 5. Save the transaction in your database
+    // 3. Save the transaction in your database
     // await database.saveTransaction(orderID);
 
     // 6. Return a successful response to the client
-    return res.sendStatus(200);
+    res.sendStatus(200);
+
 })
+
 
 // web server
 app.listen(port, () => console.log('Server listening is on'))
