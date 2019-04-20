@@ -11,7 +11,7 @@ const add2 = '#09-01 Suntec Tower Five';
 const pcode = '038985';
 const cty = 'Singapore';
 const curr = 'USD';
-const price = '0.01';
+const price = '65.00';
 var orderID;
 var txnID;
 
@@ -62,10 +62,7 @@ app.post('/api/order_complete', async function handleRequest(req, res) {
 
     console.log(orderID + '/' + txnID + '/' +createTime);
 
-    // 3. Save the transaction in your database
-    // await database.saveTransaction(orderID);
-
-    // 6. Return a successful response to the client
+    // 2b. Return a successful response to the client
     res.sendStatus(200);
 
 })
